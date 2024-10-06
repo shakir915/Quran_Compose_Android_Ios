@@ -24,8 +24,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -317,7 +317,7 @@ fun Home() {
                                 modifier = Modifier
                                     .align(alignment = Alignment.CenterVertically)
                                     .fillMaxHeight()
-                                    .fillMaxWidth()
+                                    .weight(1f)
                                     .wrapContentHeight(align = Alignment.CenterVertically)
                                     .padding(start = 8.dp, end = 8.dp),
                                 maxLines = 1,
@@ -332,6 +332,21 @@ fun Home() {
                                     searchSura()
                                 })
                         }
+
+                        Icon(
+
+                            Icons.Default.Clear,
+                            contentDescription = "Clear Text",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .padding(start = 8.dp, end = 8.dp)
+                                .alpha(if (searchText.isEmpty()) .5f else 1f)
+                                .align(alignment = Alignment.CenterVertically)
+                                .clickable {
+                                    searchText=""
+                                    searchSura()
+                                }
+                        )
                     }
 
 
@@ -387,16 +402,7 @@ fun Home() {
                                                 .joinToString("\n\n\n")
 
 
-                                        //todo
-//
-//                                        val sendIntent = Intent()
-//                                        sendIntent.action = Intent.ACTION_SEND
-//                                        sendIntent.putExtra(Intent.EXTRA_TEXT, s)
-//                                        sendIntent.type = "text/plain"
-//
-//                                        val shareIntent =
-//                                            Intent.createChooser(sendIntent, null)
-//                                        startActivity(shareIntent)
+                                        shareText.invoke(s)
                                     } catch (e: Exception) {
                                         showToast(
                                             message = e.message ?: ""
@@ -480,7 +486,7 @@ fun Home() {
                                             .padding(8.dp)
                                             .align(Alignment.End),
                                         fontFamily = kfgqpc_uthmanic_script_hafs_regular,
-                                        fontSize = prefs.getInt(
+                                        fontSize = pref.getInt(
                                             "font_size_arabic",
                                             16
                                         ).sp,
@@ -495,7 +501,7 @@ fun Home() {
                                         showListSuperTrans.get(index),
                                         modifier = Modifier.padding(8.dp),
                                         color = Color.White,
-                                        fontSize = prefs.getInt(
+                                        fontSize = pref.getInt(
                                             "font_size_malayalam",
                                             16
                                         ).sp,

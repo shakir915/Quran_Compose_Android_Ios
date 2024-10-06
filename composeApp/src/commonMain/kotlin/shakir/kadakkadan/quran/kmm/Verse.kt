@@ -83,7 +83,7 @@ suspend fun getShareText() = withContext(Dispatchers.IO) {
         )
     }
 
-    val a = prefs.getStringOrNull("selected")?.split("|")
+    val a = pref.getStringOrNull("selected")?.split("|")
     var s = ""
     a?.forEach {
         try {
@@ -164,7 +164,6 @@ fun Verse(screenData: VerseData?) {
     if (screenData != null) {
 
 
-
         var loaded by remember { mutableStateOf(false) }
         var bismi by remember { mutableStateOf("") }
         val ayaths = mutableStateListOf<String>()
@@ -188,7 +187,7 @@ fun Verse(screenData: VerseData?) {
 
 
             var initSelected = try {
-                val a = prefs.getStringOrNull("selected")?.split("|")
+                val a = pref.getStringOrNull("selected")?.split("|")
                 val f = a?.find { it.startsWith("$chapterNumber:") }
                 otherSuraAyas = 0
                 a?.forEach {
@@ -262,7 +261,7 @@ fun Verse(screenData: VerseData?) {
                         Spacer(modifier = Modifier.weight(1.0f)) // Fills remaining height
 
 
-                        if (prefs.getBoolean("enable_mail", false)) Text(
+                        if (pref.getBoolean("enable_mail", false)) Text(
                             text = "mail",
                             textAlign = TextAlign.Right,
                             modifier = Modifier
@@ -392,20 +391,10 @@ fun Verse(screenData: VerseData?) {
                                         showToast("Long-press to select an aya ")
 
                                     } else {
-
-
-
                                         scope.launch {
-                                            //todo
-//                                        var s = getShareText()
-//                                        val sendIntent = Intent()
-//                                        sendIntent.action = Intent.ACTION_SEND
-//                                        sendIntent.putExtra(Intent.EXTRA_TEXT, s)
-//                                        sendIntent.type = "text/plain"
-//
-//                                        val shareIntent =
-//                                            Intent.createChooser(sendIntent, null)
-//                                        startActivity(shareIntent)
+                                            var s = getShareText()
+                                            shareText.invoke(s)
+
 
                                         }
 
@@ -446,7 +435,7 @@ fun Verse(screenData: VerseData?) {
                                 .clickable {
                                     otherSuraAyas = 0
                                     selected.clear()
-                                    prefs
+                                    pref
                                         .remove("selected")
 
                                 },
@@ -497,8 +486,8 @@ fun Verse(screenData: VerseData?) {
                                                     selected.add(index)
                                                 }
 
-                                                var s = prefs.getString("selected", "") ?: ""
-                                                var c = prefs
+                                                var s = pref.getString("selected", "") ?: ""
+                                                var c = pref
                                                     .getStringOrNull("selected")
                                                     ?.split("|")
                                                     ?.find { it.startsWith("$chapterNumber:") }
@@ -514,7 +503,7 @@ fun Verse(screenData: VerseData?) {
 
                                                 println("a ${selected.joinToString()}")
                                                 println("sssssssssss $s")
-                                                prefs
+                                                pref
                                                     .putString("selected", s)
 
                                             }
@@ -554,7 +543,7 @@ fun Verse(screenData: VerseData?) {
                                                 .padding(8.dp)
                                                 .align(Alignment.End),
                                             fontFamily = kfgqpc_uthmanic_script_hafs_regular,
-                                            fontSize = (prefs.getInt("font_size_arabic", 20)).sp,
+                                            fontSize = (pref.getInt("font_size_arabic", 20)).sp,
                                             lineHeight = 1.4.em,
                                             color = Color.White
 
@@ -569,7 +558,7 @@ fun Verse(screenData: VerseData?) {
                                             modifier = Modifier.padding(8.dp),
                                             color = Color.White,
                                             lineHeight = 1.4.em,
-                                            fontSize = prefs.getInt("font_size_malayalam", 16).sp
+                                            fontSize = pref.getInt("font_size_malayalam", 16).sp
                                         )
                                     }
 

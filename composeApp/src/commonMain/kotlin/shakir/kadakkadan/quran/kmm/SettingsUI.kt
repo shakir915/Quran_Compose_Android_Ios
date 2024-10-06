@@ -26,23 +26,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
-import multiplatform.network.cmptoast.showToast
 import org.jetbrains.compose.resources.painterResource
 import quranmulti.composeapp.generated.resources.Res
 import quranmulti.composeapp.generated.resources.baseline_add_24
-import quranmulti.composeapp.generated.resources.baseline_delete_24
 import quranmulti.composeapp.generated.resources.baseline_remove_24
-import quranmulti.composeapp.generated.resources.baseline_share_24
-import quranmulti.composeapp.generated.resources.baseline_video_library_24
 import quranmulti.composeapp.generated.resources.kfgqpc_uthmanic_script_hafs_regular
 
 @Composable
@@ -51,8 +43,8 @@ fun SettingsUI(){
         FontFamily(org.jetbrains.compose.resources.Font(Res.font.kfgqpc_uthmanic_script_hafs_regular))
 
 
-    var font_size_malayalam by remember { mutableStateOf(prefs.getInt("font_size_malayalam",16)) }
-    var font_size_arabic by remember { mutableStateOf(prefs.getInt("font_size_arabic",20)) }
+    var font_size_malayalam by remember { mutableStateOf(pref.getInt("font_size_malayalam",16)) }
+    var font_size_arabic by remember { mutableStateOf(pref.getInt("font_size_arabic",20)) }
 
 
         // A surface container using the 'background' color from the theme
@@ -117,7 +109,7 @@ fun SettingsUI(){
                             .clickable {
                                 if (font_size_arabic > 5)
                                     font_size_arabic--
-                                prefs.putInt("font_size_arabic", font_size_arabic)
+                                pref.putInt("font_size_arabic", font_size_arabic)
 
                             },
                         //fontFamily = kfgqpc_uthmanic_script_hafs_regular,
@@ -133,7 +125,7 @@ fun SettingsUI(){
                             .clickable {
                                 if (font_size_arabic < 50)
                                     font_size_arabic++
-                                prefs.putInt("font_size_arabic", font_size_arabic)
+                                pref.putInt("font_size_arabic", font_size_arabic)
 
                             },
                         //fontFamily = kfgqpc_uthmanic_script_hafs_regular,
@@ -161,7 +153,7 @@ fun SettingsUI(){
                             .clickable {
                                 if (font_size_malayalam > 5)
                                     font_size_malayalam--
-                                prefs.putInt("font_size_malayalam", font_size_malayalam)
+                                pref.putInt("font_size_malayalam", font_size_malayalam)
 
                             },
                         //fontFamily = kfgqpc_uthmanic_script_hafs_regular,
@@ -177,7 +169,7 @@ fun SettingsUI(){
                             .clickable {
                                 if (font_size_malayalam < 50)
                                     font_size_malayalam++
-                                prefs.putInt("font_size_malayalam", font_size_malayalam)
+                                pref.putInt("font_size_malayalam", font_size_malayalam)
                             },
                         //fontFamily = kfgqpc_uthmanic_script_hafs_regular,
                     )
